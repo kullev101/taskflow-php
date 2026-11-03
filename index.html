@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TaskFlow — a simple, monochrome task manager for planning your day.">
+  <title>TaskFlow — Task Manager</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="page">
+    <div class="app">
+      <aside class="sidebar" aria-label="Task summary">
+        <div class="sidebar-summary">
+          <div class="summary-item">
+            <span class="summary-value">08</span>
+            <span class="summary-label">Total tasks</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-value">02</span>
+            <span class="summary-label">Completed</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-value">06</span>
+            <span class="summary-label">Remaining</span>
+          </div>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <section class="intro" aria-labelledby="page-title">
+          <div class="intro-copy-wrap">
+            <p class="eyebrow">Personal workspace</p>
+            <h1 id="page-title">Make room for <em>focus</em>.</h1>
+            <p class="intro-copy">
+              A quiet, monochrome workspace for the work that matters.
+              Capture a task and keep the day moving.
+            </p>
+          </div>
+        </section>
+
+        <section class="composer" aria-labelledby="composer-title">
+          <div class="section-head">
+            <h2 id="composer-title" class="section-title">Add a task</h2>
+          </div>
+
+          <form class="task-form" action="" method="post" autocomplete="off">
+            <div class="field field--task">
+              <label for="task-title">Task</label>
+              <input id="task-title" name="title" type="text" placeholder="What needs to get done?" maxlength="120" required>
+            </div>
+
+            <button class="btn-add" type="submit">Add task</button>
+          </form>
+        </section>
+
+        <section class="tasks" id="tasks" aria-labelledby="tasks-title">
+          <div class="section-head">
+            <h2 id="tasks-title" class="section-title">All tasks</h2>
+          </div>
+
+          <ul class="task-list" role="list">
+            <li class="task">
+              <input class="task-checkbox" type="checkbox" name="tasks[]" value="1" aria-label="Mark 'Finish the TaskFlow static layout' as complete">
+              <h3 class="task-title">Finish the TaskFlow static layout</h3>
+              <button class="task-delete" type="button">Delete</button>
+            </li>
+
+            <li class="task">
+              <input class="task-checkbox" type="checkbox" name="tasks[]" value="2" aria-label="Mark 'Review the PHP backend roadmap' as complete">
+              <h3 class="task-title">Review the PHP backend roadmap</h3>
+              <button class="task-delete" type="button">Delete</button>
+            </li>
+
+            <li class="task">
+              <input class="task-checkbox" type="checkbox" name="tasks[]" value="3" aria-label="Mark 'Draft the MySQL table structure' as complete">
+              <h3 class="task-title">Draft the MySQL table structure</h3>
+              <button class="task-delete" type="button">Delete</button>
+            </li>
+          </ul>
+        </section>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
