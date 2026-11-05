@@ -35,3 +35,16 @@ taskForm.addEventListener('submit', (event) => {
   addTask(title);
   taskInput.value = '';
 });
+
+// вешаю один обработчик на весь список, а не на каждую кнопку
+taskList.addEventListener('click', (event) => {
+  // проверяю, что кликнули именно по кнопке удаления
+  const deleteButton = event.target.closest('.task-delete');
+
+  if (!deleteButton) {
+    return;
+  }
+
+  // нахожу задачу и удаляю её
+  deleteButton.closest('.task').remove();
+});
