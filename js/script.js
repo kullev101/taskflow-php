@@ -1,6 +1,8 @@
 const taskForm = document.querySelector('.task-form');
 const taskList = document.querySelector('.task-list');
 
+///////////////////////
+
 function addTask(title) {
   const taskItem = document.createElement('li');
   taskItem.className = 'task';
@@ -21,6 +23,8 @@ function addTask(title) {
   taskItem.append(checkbox, taskTitle, deleteButton);
   taskList.append(taskItem);
 }
+
+////////////////////////////
 
 taskForm.addEventListener('submit', (event) => {
   event.preventDefault();
@@ -48,3 +52,5 @@ taskList.addEventListener('click', (event) => {
   // нахожу задачу и удаляю её
   deleteButton.closest('.task').remove();
 });
+
+///////////////////////////////////
