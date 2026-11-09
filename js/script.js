@@ -1,30 +1,66 @@
 const taskForm = document.querySelector('.task-form');
 const taskList = document.querySelector('.task-list');
+const totalTasks = document.querySelector('#total-tasks');
+const completedTasks = document.querySelector('#completed-tasks');
+const remainingTasks = document.querySelector('#remaining-tasks');
 
-///////////////////////
+// храню задачи в массиве, а html собираю уже из него
+const tasks = [
+  { id: 1, text: 'Finish the TaskFlow static layout', completed: false },
+  { id: 2, text: 'Review the PHP backend roadmap', completed: false },
+  { id: 3, text: 'Draft the MySQL table structure', completed: false },
+];
 
-function addTask(title) {
-  const taskItem = document.createElement('li');
-  taskItem.className = 'task';
+let nextId = 4;
 
-  const checkbox = document.createElement('input');
-  checkbox.type = 'checkbox';
-  checkbox.className = 'task-checkbox';
+////////////////////////
 
-  const taskTitle = document.createElement('h3');
-  taskTitle.className = 'task-title';
-  taskTitle.textContent = title;
+function updateStats() {
+  const completed = tasks.filter((task) => task.completed).length;
 
-  const deleteButton = document.createElement('button');
-  deleteButton.type = 'button';
-  deleteButton.className = 'task-delete';
-  deleteButton.textContent = 'Delete';
-
-  taskItem.append(checkbox, taskTitle, deleteButton);
-  taskList.append(taskItem);
+  totalTasks.textContent = String(tasks.length).padStart(2, '0');
+  completedTasks.textContent = String(completed).padStart(2, '0');
+  remainingTasks.textContent = String(tasks.length - completed).padStart(2, '0');
 }
 
-////////////////////////////
+function renderTasks() {
+  // очищаю список и заново собираю его из массива
+  taskList.innerHTML = '';
+
+  tasks.forEach((task) => {
+    const taskItem = document.createElement('li');
+    taskItem.className = 'task';
+    taskItem.dataset.id = task.id;
+
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.className = 'task-checkbox';
+    checkbox.checked = task.completed;
+
+    const taskTitle = document.createElement('h3');
+    taskTitle.className = 'task-title';
+    taskTitle.textContent = task.text;
+
+    const deleteButton = document.createElement('button');
+    deleteButton.type = 'button';
+    deleteButton.className = 'task-delete';
+    deleteButton.textContent = 'Delete';
+
+    taskItem.append(checkbox, taskTitle, deleteButton);
+    taskList.append(taskItem);
+  });
+
+  updateStats();
+}
+
+function addTask(title) {
+  tasks.push({ id: nextId, text: title, completed: false });
+  nextId += 1;
+
+  renderTasks();
+}
+
+////////////////////////
 
 taskForm.addEventListener('submit', (event) => {
   event.preventDefault();
@@ -49,8 +85,34 @@ taskList.addEventListener('click', (event) => {
     return;
   }
 
-  // нахожу задачу и удаляю её
-  deleteButton.closest('.task').remove();
+  // нахожу id задачи и убираю её из массива
+  const taskItem = deleteButton.closest('.task');
+  const id = Number(taskItem.dataset.id);
+  const index = tasks.findIndex((task) => task.id === id);
+
+  if (index === -1) {
+    return;
+  }
+
+  tasks.splice(index, 1);
+  renderTasks();
 });
 
-///////////////////////////////////
+// отмечаю задачу выполненной прямо в массиве
+taskList.addEventListener('change', (event) => {
+  if (!event.target.classList.contains('task-checkbox')) {
+    return;
+  }
+
+  const taskItem = event.target.closest('.task');
+  const task = tasks.find((item) => item.id === Number(taskItem.dataset.id));
+
+  if (!task) {
+    return;
+  }
+
+  task.completed = event.target.checked;
+  updateStats();
+});
+
+renderTasks();

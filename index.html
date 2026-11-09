@@ -18,15 +18,15 @@
       <aside class="sidebar" aria-label="Task summary">
         <div class="sidebar-summary">
           <div class="summary-item">
-            <span class="summary-value">08</span>
+            <span class="summary-value" id="total-tasks">00</span>
             <span class="summary-label">Total tasks</span>
           </div>
           <div class="summary-item">
-            <span class="summary-value">02</span>
+            <span class="summary-value" id="completed-tasks">00</span>
             <span class="summary-label">Completed</span>
           </div>
           <div class="summary-item">
-            <span class="summary-value">06</span>
+            <span class="summary-value" id="remaining-tasks">00</span>
             <span class="summary-label">Remaining</span>
           </div>
         </div>
@@ -64,25 +64,7 @@
             <h2 id="tasks-title" class="section-title">All tasks</h2>
           </div>
 
-          <ul class="task-list" role="list">
-            <li class="task">
-              <input class="task-checkbox" type="checkbox" name="tasks[]" value="1" aria-label="Mark 'Finish the TaskFlow static layout' as complete">
-              <h3 class="task-title">Finish the TaskFlow static layout</h3>
-              <button class="task-delete" type="button">Delete</button>
-            </li>
-
-            <li class="task">
-              <input class="task-checkbox" type="checkbox" name="tasks[]" value="2" aria-label="Mark 'Review the PHP backend roadmap' as complete">
-              <h3 class="task-title">Review the PHP backend roadmap</h3>
-              <button class="task-delete" type="button">Delete</button>
-            </li>
-
-            <li class="task">
-              <input class="task-checkbox" type="checkbox" name="tasks[]" value="3" aria-label="Mark 'Draft the MySQL table structure' as complete">
-              <h3 class="task-title">Draft the MySQL table structure</h3>
-              <button class="task-delete" type="button">Delete</button>
-            </li>
-          </ul>
+          <ul class="task-list" role="list"></ul>
         </section>
       </main>
     </div>
