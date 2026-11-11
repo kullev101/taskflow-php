@@ -15,6 +15,7 @@ let nextId = 4;
 
 ////////////////////////
 
+// пересчитываю статистику для сайдбара
 function updateStats() {
   const completed = tasks.filter((task) => task.completed).length;
 
@@ -23,8 +24,20 @@ function updateStats() {
   remainingTasks.textContent = String(tasks.length - completed).padStart(2, '0');
 }
 
+////////////////////////
+
+// JSON.stringify превращает массив в json строку
+// потом такую строку можно сохранить или отправить на сервер
+// а JSON.parse делает наоборот — из строки обратно в массив
+function tasksToJson() {
+  return JSON.stringify(tasks);
+}
+
+////////////////////////
+
+// заново собираю весь список задач из массива
 function renderTasks() {
-  // очищаю список и заново собираю его из массива
+  // очищаю список перед отрисовкой
   taskList.innerHTML = '';
 
   tasks.forEach((task) => {
@@ -51,8 +64,14 @@ function renderTasks() {
   });
 
   updateStats();
+
+  // показываю актуальный json в консоли
+  console.log(tasksToJson());
 }
 
+////////////////////////
+
+// добавляю новую задачу в массив
 function addTask(title) {
   tasks.push({ id: nextId, text: title, completed: false });
   nextId += 1;
@@ -62,6 +81,7 @@ function addTask(title) {
 
 ////////////////////////
 
+// ловлю отправку формы
 taskForm.addEventListener('submit', (event) => {
   event.preventDefault();
 
@@ -73,8 +93,12 @@ taskForm.addEventListener('submit', (event) => {
   }
 
   addTask(title);
+
+  // очищаю поле после добавления
   taskInput.value = '';
 });
+
+////////////////////////
 
 // вешаю один обработчик на весь список, а не на каждую кнопку
 taskList.addEventListener('click', (event) => {
@@ -98,6 +122,8 @@ taskList.addEventListener('click', (event) => {
   renderTasks();
 });
 
+////////////////////////
+
 // отмечаю задачу выполненной прямо в массиве
 taskList.addEventListener('change', (event) => {
   if (!event.target.classList.contains('task-checkbox')) {
@@ -113,6 +139,11 @@ taskList.addEventListener('change', (event) => {
 
   task.completed = event.target.checked;
   updateStats();
+
+  // json тоже обновляю, чтобы он совпадал с массивом
+  console.log(tasksToJson());
 });
+
+////////////////////////
 
 renderTasks();
