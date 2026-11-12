@@ -49,8 +49,23 @@ function loadTasks() {
     return;
   }
 
-  // JSON.parse превращает строку обратно в массив
-  tasks = JSON.parse(tasksJson);
+  try {
+    // JSON.parse может упасть, если данные в localStorage повреждены
+    const savedTasks = JSON.parse(tasksJson);
+
+    // проверяю, что после JSON.parse получился именно массив
+    if (!Array.isArray(savedTasks)) {
+      throw new Error('Saved tasks is not an array');
+    }
+
+    tasks = savedTasks;
+  } catch (error) {
+    // если данные битые, начинаю с пустого списка
+    console.log('Не удалось загрузить задачи:', error);
+    tasks = [];
+    nextId = 0;
+    return;
+  }
 
   // беру следующий id после самого большого, чтобы не было повторов
   if (tasks.length > 0) {
@@ -92,9 +107,6 @@ function renderTasks() {
 
   // показываю актуальный json в консоли
   console.log(tasksToJson());
-
-  // сохраняю задачи в localStorage
-  saveTasks();
 }
 
 ////////////////////////
@@ -103,6 +115,9 @@ function renderTasks() {
 function addTask(title) {
   tasks.push({ id: nextId, text: title, completed: false });
   nextId += 1;
+
+  // сохраняю уже после изменения массива
+  saveTasks();
 
   renderTasks();
 }
@@ -147,6 +162,10 @@ taskList.addEventListener('click', (event) => {
   }
 
   tasks.splice(index, 1);
+
+  // сохраняю уже после изменения массива
+  saveTasks();
+
   renderTasks();
 });
 
