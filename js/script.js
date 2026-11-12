@@ -4,14 +4,11 @@ const totalTasks = document.querySelector('#total-tasks');
 const completedTasks = document.querySelector('#completed-tasks');
 const remainingTasks = document.querySelector('#remaining-tasks');
 
-// храню задачи в массиве, а html собираю уже из него
-const tasks = [
-  { id: 1, text: 'Finish the TaskFlow static layout', completed: false },
-  { id: 2, text: 'Review the PHP backend roadmap', completed: false },
-  { id: 3, text: 'Draft the MySQL table structure', completed: false },
-];
+// тут будут задачи, которые загрузим из localStorage
+let tasks = [];
 
-let nextId = 4;
+// id начинаю с нуля
+let nextId = 0;
 
 ////////////////////////
 
@@ -39,6 +36,26 @@ function tasksToJson() {
 function saveTasks() {
   const tasksJson = tasksToJson();
   localStorage.setItem('tasks', tasksJson);
+}
+
+////////////////////////
+
+// достаю сохранённые задачи из localStorage
+function loadTasks() {
+  const tasksJson = localStorage.getItem('tasks');
+
+  // если сохранений нет, оставляю пустой массив
+  if (!tasksJson) {
+    return;
+  }
+
+  // JSON.parse превращает строку обратно в массив
+  tasks = JSON.parse(tasksJson);
+
+  // беру следующий id после самого большого, чтобы не было повторов
+  if (tasks.length > 0) {
+    nextId = Math.max(...tasks.map((task) => task.id)) + 1;
+  }
 }
 
 ////////////////////////
@@ -160,4 +177,6 @@ taskList.addEventListener('change', (event) => {
 
 ////////////////////////
 
+// сначала загружаю сохранённые задачи, потом рисую список
+loadTasks();
 renderTasks();
