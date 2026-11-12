@@ -35,6 +35,14 @@ function tasksToJson() {
 
 ////////////////////////
 
+// беру json строку и сохраняю её в localStorage под ключом tasks
+function saveTasks() {
+  const tasksJson = tasksToJson();
+  localStorage.setItem('tasks', tasksJson);
+}
+
+////////////////////////
+
 // заново собираю весь список задач из массива
 function renderTasks() {
   // очищаю список перед отрисовкой
@@ -67,6 +75,9 @@ function renderTasks() {
 
   // показываю актуальный json в консоли
   console.log(tasksToJson());
+
+  // сохраняю задачи в localStorage
+  saveTasks();
 }
 
 ////////////////////////
@@ -142,6 +153,9 @@ taskList.addEventListener('change', (event) => {
 
   // json тоже обновляю, чтобы он совпадал с массивом
   console.log(tasksToJson());
+
+  // и сразу сохраняю новое состояние
+  saveTasks();
 });
 
 ////////////////////////
